@@ -1,79 +1,61 @@
 $(document).ready(function() {
 
-  var listOfSpots = new VacationSpots();
+  var listOfTasks = new ListOfTasks();
 
   $("#formOne").submit(function(event) {
     event.preventDefault();
-    var place = $("#inputPlace").val();
-    var landmark = $("#inputLandmarks").val();
-    var time = $("#inputTime").val();
-    var description = $("#inputDescription").val();
+    var taskInput = $("#inputTask").val();
 
-    var newDestination = new Destination(place, landmark, time, description);
-
-    listOfSpots.addDestination(newDestination);
-    $("#placesList").empty();
-    for (var idx = 0; idx < listOfSpots.places.length; idx ++) {
-        spot = listOfSpots.places[idx];
-      $("#placesList").append("<li>" + '<h5 class="mt-0">' + spot.location +  '</h5>' + "</li>");
-
-      $("#placesList").append(
-        '<div class="media">' +
-    //      '<img src="..." class="mr-3" alt="...">' +
-          '<div class="media-body">' +
-            '<h6>' + spot.timeOfYear + '</h6>' +
-            '<h6>' + spot.landmarks + '</h6>' +
-            '<p>' + spot.description + '</p>' +
-          '</div>' +
-        '</div>'
-      );
-      // $("#placesList").children().hide();
-      // console.log($("#placesList").children()[0]);
-      // $("#placesList").children()[idx*2].click(function() {
-      //    $("#placesList").children()[idx+1].toggle();
-      //  })
+    listOfTasks.addTask(new Task(taskInput));
+    $("#resultList").empty();
+    for (var idx = 0; idx < listOfTasks.list.length; idx ++) {
+        var task = listOfTasks.list[idx];
+        if (task) {
+        $("#resultList").append(
+          "<div class='form-check'>" +
+              "<input class='form-check-input' type='radio' name='tasks' id=" + task.id +">" +
+              "<label class='form-check-label' for=" + idx + "exampleRadios1'>" +
+                task.name  +
+              "</label>" +
+          "</div>");
+        }
     };
+    console.log(listOfTasks.list);
 
     $(".results").show();
-    // console.log(listOfSpots.places);
-
-
-
 
   });
+
+  $("#resultForm").submit(function(event) {
+    event.preventDefault();
+    var checkedItem = $("input:radio[name=tasks]:checked");
+    checkedItem.parent().remove();
+    listOfTasks.deleteTask(checkedItem[0].id)
+  })
 
 
 
 
 });
 // Business logic for Spots
-function VacationSpots() {
-  this.places = [],
+function ListOfTasks() {
+  this.list = [],
   this.currentId = 0
 }
-VacationSpots.prototype.addDestination = function(destination) {
-  destination.id = this.assignId();
-  this.places.push(destination);
+ListOfTasks.prototype.addTask= function(task) {
+  task.id = this.assignId();
+  this.list.push(task);
 }
-VacationSpots.prototype.assignId = function() {
+ListOfTasks.prototype.assignId = function() {
   this.currentId++;
   return this.currentId;
 }
-VacationSpots.prototype.findDestination = function(id) {
-  for (var i = 0; i < this.places.length; i++) {
-    if (this.places[i]) {
-      if (this.places[i].id == id) {
-        return this.places[i];
-      }
-    }
-  }
-  return false;
-}
-VacationSpots.prototype.deleteDestination = function(id) {
-  for (var i = 0; i < this.places.length; i++) {
-    if (this.places[i]) {
-      if (this.places[i].id == id) {
-        delete this.places[i];
+
+ListOfTasks.prototype.deleteTask = function(id) {
+  for (var i = 0; i < this.list.length; i++) {
+    if (this.list[i]) {
+      if (this.list[i].id == id) {
+        delete this.list[i];
         return true;
       }
     }
@@ -81,10 +63,17 @@ VacationSpots.prototype.deleteDestination = function(id) {
   return false;
 }
 
-// Business logic for Destination
-function Destination(location, landmarks, timeOfYear, description) {
-  this.location = location,
-  this.landmarks = landmarks,
-  this.timeOfYear = timeOfYear,
-  this.description = description;
+ListOfTasks.prototype.findTask = function(id) {
+  for (var i = 0; i < this.list.length; i++) {
+    if (this.list[i]) {
+      if (this.list[i].id == id) {
+        return this.list[i];
+      }
+    }
+  }
+  return false;
+}
+
+function Task(name) {
+  this.name = name;
 }

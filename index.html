@@ -5,37 +5,28 @@
     <link href="css/styles.css" rel="stylesheet" type="text/css">
     <script src="js/jquery-3.4.1.js"></script>
     <script src="js/scripts.js"></script>
-    <title>Vacation Spot</title>
+    <title>To Do List</title>
   </head>
   <body>
     <div class="container">
       <form id="formOne">
-        <h2>Enter your destination place</h2>
+        <h2>To Do list</h2>
         <div class="form-group">
-          <label for="inputPlace">Name of the place</label>
-          <input type="text" class="form-control" id="inputPlace">
+          <label for="inputTask">Enter your task</label>
+          <input type="text" class="form-control" id="inputTask">
         </div>
-        <div class="form-group">
-          <label for="inputLandmarks">Landmark</label>
-          <input type="text" class="form-control" id="inputLandmarks">
-        </div>
-        <div class="form-group">
-          <label for="inputTime">Time of the year</label>
-          <input type="text" class="form-control" id="inputTime">
-        </div>
-        <div class="form-group">
-          <label for="inputDescription">Description</label>
-          <textarea class="form-control" id="inputDescription" rows="3"></textarea>
-        </div>
+
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
 
       <div class="results">
-        <h2>Places</h2>
-        <ul id="placesList">
+        <form id="resultForm">
+          <h2>List of things to do:</h2>
+          <div id="resultList">
 
-        </ul>
-
+          </div>
+          <button type="submit" class="btn btn-primary">Delete</button>
+        </form>
       </div>
 
     </div>
